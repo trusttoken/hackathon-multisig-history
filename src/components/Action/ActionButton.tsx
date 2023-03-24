@@ -13,10 +13,14 @@ export const ActionButton = ({ tx }: ActionButtonProps) => {
   const { account } = useEthers();
   const confirmations = tx.confirmations ?? [];
   const { mutate: confirmTx } = useConfirmTx(tx);
-  const {mutate: executeTx} = useExecuteTx(tx)
+  const { mutate: executeTx } = useExecuteTx(tx);
 
   if (requiresExecution(tx)) {
-    return <Button view="primary" onClick={executeTx}>Execute</Button>;
+    return (
+      <Button view="primary" onClick={executeTx}>
+        Execute
+      </Button>
+    );
   }
 
   const hasUserConfirmed =
@@ -60,7 +64,7 @@ const requiresConfirmation = (
 const requiresExecution = (tx: SafeMultisigTransactionResponse) => {
   const confirmations = tx.confirmations ?? [];
   if (tx.isExecuted || tx.isSuccessful) {
-    return false
+    return false;
   }
 
   return confirmations.length >= tx.confirmationsRequired;
