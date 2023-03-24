@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "pnpm run lint:prettier --check && next lint",
+    "lint:fix": "pnpm run lint:prettier --write && pnpm run lint:eslint --fix",
+    "lint:prettier": "prettier './src/**/*.{ts,tsx}' --cache",
+    "lint:eslint": "eslint './src/**/*.{ts,tsx}' --cache"
   },
   "dependencies": {
     "@safe-global/safe-ethers-lib": "^1.9.2",
@@ -19,6 +22,7 @@
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",
+    "prettier": "^2.8.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "^18.2.0",
