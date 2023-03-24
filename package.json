@@ -12,6 +12,7 @@
     "lint:eslint": "eslint './src/**/*.{ts,tsx}' --cache"
   },
   "dependencies": {
+    "@safe-global/safe-core-sdk-types": "^1.9.0",
     "@safe-global/safe-ethers-lib": "^1.9.2",
     "@safe-global/safe-service-client": "^2.0.0",
     "@tanstack/react-query": "^4.28.0",
@@ -19,6 +20,7 @@
     "@types/react-dom": "18.0.11",
     "@usedapp/core": "^1.2.7",
     "@usedapp/wallet-connect-connector": "^1.0.2",
+    "date-fns": "^2.29.3",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",
