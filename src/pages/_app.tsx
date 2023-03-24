@@ -3,7 +3,7 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles, theme } from "../styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DAppProvider } from "@usedapp/core";
-import { getDAppConfig } from "@/pages/providers/usedapp";
+import { getDAppConfig } from "pages/providers/usedapp";
 
 const queryClient = new QueryClient();
 

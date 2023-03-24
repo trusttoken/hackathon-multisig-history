@@ -28,7 +28,6 @@ export interface TableColumn<T> {
   name: string;
   sortable?: boolean;
   customSort?: (a: T, b: T) => number;
-  onClick?: () => void;
   side?: "left" | "right" | "center";
 }
 

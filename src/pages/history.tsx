@@ -4,6 +4,17 @@ import EthersAdapter from "@safe-global/safe-ethers-lib";
 import { ethers } from "ethers";
 import SafeServiceClient from "@safe-global/safe-service-client";
 import { useQuery } from "@tanstack/react-query";
+import { Datatable } from "components/Datatable";
+import {
+  activityColumn,
+  ownerColumn,
+  dateColumn,
+  approveColumn,
+  statusColumn,
+  buttonColumn,
+} from "components/Datatable/tableColumns";
+import { SafeMultisigTransactionResponse } from "types";
+import { Content, Text } from "components/general";
 
 export default function History() {
   const blockNumber = useBlockNumber();
@@ -42,11 +53,27 @@ export default function History() {
     },
   });
   console.log("multisigTxs: ", multisigTxs);
+  const results = multisigTxs?.results as
+    | SafeMultisigTransactionResponse[]
+    | undefined;
 
   return (
-    <div>
-      <pre>{JSON.stringify(safes)}</pre>
-      <pre>{JSON.stringify(multisigTxs)}</pre>
-    </div>
+    <Content>
+      <Text variant="title2" color="dark" extraBold>
+        Transactions
+      </Text>
+      <Datatable
+        initSortKey="Status"
+        data={results ?? []}
+        columns={[
+          activityColumn,
+          ownerColumn,
+          dateColumn,
+          approveColumn,
+          statusColumn,
+          buttonColumn,
+        ]}
+      />
+    </Content>
   );
 }

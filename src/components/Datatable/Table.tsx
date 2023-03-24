@@ -29,7 +29,7 @@ export const TableContainer = styled.div`
 `;
 
 export const Table = styled.table`
-  width: 100%;
+  width: 70%;
   max-width: 100%;
   border-spacing: initial;
   background-color: ${({ theme }) => theme.colors.White};

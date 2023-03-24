@@ -24,14 +24,12 @@ export function DataTableBody<Row>({
     <TableBody>
       {data.map((row, i) => (
         <Fragment key={i}>
-          <TableRow disableShadow={isSelected(row)}>
-            {columns.map(({ cell, selector, href, side }, j) => (
-              <TableCell
-                side={side}
-                href={href?.(row)}
-                key={j}
-                selected={isSelected(row)}
-              >
+          <TableRow
+            disableShadow={isSelected(row)}
+            onClick={() => console.log("click!")}
+          >
+            {columns.map(({ cell, selector, side }, j) => (
+              <TableCell side={side} key={j} selected={isSelected(row)}>
                 {cell ? cell(row) : selector(row).toString()}
               </TableCell>
             ))}
