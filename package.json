@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@safe-global/safe-ethers-lib": "^1.9.2",
     "@safe-global/safe-service-client": "^2.0.0",
     "@tanstack/react-query": "^4.28.0",
     "@types/node": "18.15.7",
