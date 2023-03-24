@@ -26,7 +26,7 @@ export function DataTableBody<Row>({
         <Fragment key={i}>
           <TableRow
             disableShadow={isSelected(row)}
-            onClick={() => console.log("click!")}
+            // onClick={() => console.log("click!")}
           >
             {columns.map(({ cell, selector, side }, j) => (
               <TableCell side={side} key={j} selected={isSelected(row)}>
