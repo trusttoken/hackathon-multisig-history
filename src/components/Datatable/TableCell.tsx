@@ -8,7 +8,6 @@ export interface TableCellProps {
   children: React.ReactNode;
   colSpan?: number;
   maxWidth?: number;
-  href?: string;
   side?: "left" | "right" | "center";
   selected?: boolean;
 }
@@ -17,7 +16,6 @@ export const TableCell = ({
   children,
   colSpan,
   maxWidth,
-  href,
   side,
   selected,
 }: TableCellProps) => (
@@ -26,13 +24,7 @@ export const TableCell = ({
     maxWidth={maxWidth}
     {...(colSpan ? { colSpan } : {})}
   >
-    {href ? (
-      <CellLink href={href} passHref legacyBehavior>
-        <CellRow side={side}>{children}</CellRow>
-      </CellLink>
-    ) : (
-      <CellRow side={side}>{children}</CellRow>
-    )}
+    <CellRow side={side}>{children}</CellRow>
   </TableCellStyled>
 );
 
@@ -48,6 +40,10 @@ export const TableCellStyled = styled.td<
 
   &:first-child {
     border-left: 1px solid ${({ theme }) => theme.colors.Mouse};
+  }
+
+  &:last-child {
+    border-right: 1px solid ${({ theme }) => theme.colors.Mouse};
   }
 
   ${({ maxWidth }) =>
@@ -85,9 +81,6 @@ export const CellRow = styled(Row)<Pick<TableCellProps, "side">>`
         return "center";
     }
   }};
-`;
-const CellLink = styled(Link)`
-  text-decoration: none;
 `;
 
 export const TableCellColumn = styled(Column)`
