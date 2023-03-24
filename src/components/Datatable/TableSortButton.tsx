@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 import { Transitions } from "styles";
 import { Button } from "../Button";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icons";
 
 interface TableHeaderSortButtonProps {
   onClick: () => void;

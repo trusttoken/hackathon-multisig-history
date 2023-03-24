@@ -4,7 +4,7 @@ import { Text } from "../general/Text";
 import styled from "styled-components";
 import { TableCellColumn, TableCellRow } from "./TableCell";
 import { Badge, StatusBadge } from "../Badge";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icons";
 import { Row, TextInline } from "components/general";
 import { defaultImage, Img } from "components/Image";
 import { SafeMultisigTransactionResponse } from "types";
@@ -61,10 +61,10 @@ export const approveColumn: TransactionColumn = {
       <Icon>group</Icon>
       <Row>
         <TextInline color="light" variant="body2">
-          {transaction.confirmationsRequired}/
+          {transaction.confirmations?.length}
         </TextInline>
         <TextInline variant="body2">
-          {transaction.confirmations?.length}
+          /{transaction.confirmationsRequired}
         </TextInline>
       </Row>
     </TableCellRow>
