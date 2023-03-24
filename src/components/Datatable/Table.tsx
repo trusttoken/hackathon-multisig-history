@@ -1,6 +1,6 @@
 import { Column } from "components/general";
 import styled from "styled-components";
-import { BorderRadiuses, zIndexes } from "styles";
+import { BorderRadiuses, shadows, zIndexes } from "styles";
 import { TableCellStyled } from "./TableCell";
 
 export const TableContainer = styled.div`
@@ -11,7 +11,6 @@ export const TableContainer = styled.div`
   scrollbar-width: thin;
   scrollbar-color: ${({ theme: { colors } }) =>
     `${colors.Iron} ${colors.Mouse}`};
-  border-right: 1px solid ${({ theme }) => theme.colors.Mouse};
 
   &::-webkit-scrollbar {
     display: block;
@@ -69,6 +68,10 @@ export const TableRow = styled.tr<TableRowProps>`
       z-index: ${zIndexes.content};
     }
   `}
+
+  &:hover {
+    box-shadow: ${({ disableShadow }) => (disableShadow ? "none" : shadows.s)};
+  }
 `;
 
 export const TableRowExpanded = styled.tr`

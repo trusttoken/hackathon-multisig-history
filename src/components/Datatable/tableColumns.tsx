@@ -1,13 +1,14 @@
 import { TableColumn } from "./types";
-import { formatDate, shortAddress } from "utils";
+import { shortAddress, formatDate, formatTime } from "utils";
 import { Text } from "../general/Text";
 import styled from "styled-components";
 import { TableCellColumn, TableCellRow } from "./TableCell";
-import { Badge } from "../Badge";
+import { Badge, StatusBadge } from "../Badge";
 import { Icon } from "components/Icon";
 import { Row, TextInline } from "components/general";
 import { defaultImage, Img } from "components/Image";
 import { SafeMultisigTransactionResponse } from "types";
+import { theme } from "styles";
 import { ActionButton } from "../Action/ActionButton";
 
 type TransactionColumn = TableColumn<SafeMultisigTransactionResponse>;
@@ -17,7 +18,7 @@ export const activityColumn: TransactionColumn = {
   selector: ({ dataDecoded }) => dataDecoded?.method ?? "",
   cell: ({ dataDecoded }) => (
     <TableCellRow>
-      <Icon>download</Icon>
+      <Icon color={theme.colors.CopperOrange}>download</Icon>
       <Text variant="body2" bold color="dark">
         {dataDecoded?.method}
       </Text>
@@ -44,6 +45,9 @@ export const dateColumn: TransactionColumn = {
       <Text color="dark" variant="body2">
         {formatDate(submissionDate)}
       </Text>
+      <Text color="light" variant="body2">
+        {formatTime(submissionDate)}
+      </Text>
     </StatusCellColumn>
   ),
   side: "right",
@@ -56,8 +60,12 @@ export const approveColumn: TransactionColumn = {
     <TableCellRow>
       <Icon>group</Icon>
       <Row>
-        <TextInline>{transaction.confirmationsRequired}/</TextInline>
-        <TextInline>{transaction.confirmations?.length}</TextInline>
+        <TextInline color="light" variant="body2">
+          {transaction.confirmationsRequired}/
+        </TextInline>
+        <TextInline variant="body2">
+          {transaction.confirmations?.length}
+        </TextInline>
       </Row>
     </TableCellRow>
   ),
@@ -67,14 +75,20 @@ export const approveColumn: TransactionColumn = {
 export const statusColumn: TransactionColumn = {
   name: "Status",
   selector: ({ confirmationsRequired }) => confirmationsRequired,
-  cell: (transaction) => <Badge>{transaction.confirmationsRequired}</Badge>,
-  side: "right",
+  cell: (transaction) => (
+    <StatusBadge
+      confirmationsGets={transaction.confirmations?.length ?? 0}
+      confirmationsRequired={transaction.confirmationsRequired}
+    />
+  ),
+  side: "center",
 };
 
 export const buttonColumn: TransactionColumn = {
   name: "Action",
   selector: ({ confirmationsRequired }) => confirmationsRequired,
   cell: (transaction) => <ActionButton tx={transaction}></ActionButton>,
+  side: "center",
 };
 
 const StatusCellColumn = styled(TableCellColumn)`

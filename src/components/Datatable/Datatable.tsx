@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { DataTableBody } from "./DataTableBody";
 import { DataTableHeader } from "./DataTableHeader";
 import { DatatableProps } from "./types";
@@ -26,7 +25,7 @@ export function Datatable<T>({
   const sortedData = useSortedData(data, sortState);
 
   return (
-    <DatatableContainer>
+    <TableContainer>
       {!!sortedData.length && (
         <Table>
           <DataTableHeader
@@ -42,10 +41,6 @@ export function Datatable<T>({
           />
         </Table>
       )}
-    </DatatableContainer>
+    </TableContainer>
   );
 }
-
-const DatatableContainer = styled(TableContainer)`
-  overflow-x: scroll;
-`;
