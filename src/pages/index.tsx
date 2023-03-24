@@ -1,16 +1,11 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import { useBlockNumber, useEthers } from "@usedapp/core";
+import Head from 'next/head'
+import Image from 'next/image'
+import {Inter} from 'next/font/google'
+import styles from '@/styles/Home.module.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const blockNumber = useBlockNumber();
-  const { chainId } = useEthers();
-  console.log("chainId: ", chainId);
-  console.log("blockNumber: ", blockNumber);
   return (
     <>
       <Head>

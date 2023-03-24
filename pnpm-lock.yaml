@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@safe-global/safe-ethers-lib': ^1.9.2
   '@safe-global/safe-service-client': ^2.0.0
   '@tanstack/react-query': ^4.28.0
   '@types/node': 18.15.7
@@ -21,6 +22,7 @@ specifiers:
   typescript: 5.0.2
 
 dependencies:
+  '@safe-global/safe-ethers-lib': 1.9.2
   '@safe-global/safe-service-client': 2.0.0
   '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.15.7
@@ -916,6 +918,30 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@safe-global/safe-core-sdk-utils/1.7.2:
+    resolution: {integrity: sha512-nlS9/vtd6rj+2IK0tgt4xq6vqdGOAa+6MwAeiYCoP1ihcqFD38k6LBn7ZdXWjRF9VBvMXTgclkjvzp+PkLKtAw==}
+    dependencies:
+      '@safe-global/safe-core-sdk-types': 1.9.0
+      semver: 7.3.8
+      web3-utils: 1.9.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@safe-global/safe-ethers-lib/1.9.2:
+    resolution: {integrity: sha512-x8Lq6ViRHW9UC+SAF+VOZ8Lt7jXMhbNS/+WYhSdAKhM+SHwkaaDi03pyZgm4FK0C3Zah7vryU3dSDR/CwEtqhQ==}
+    dependencies:
+      '@safe-global/safe-core-sdk-types': 1.9.0
+      '@safe-global/safe-core-sdk-utils': 1.7.2
+      ethers: 5.7.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /@safe-global/safe-service-client/2.0.0:
