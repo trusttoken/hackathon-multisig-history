@@ -1,61 +1,38 @@
-import { useBlockNumber, useEthers } from "@usedapp/core";
-import { useMemo } from "react";
-import EthersAdapter from "@safe-global/safe-ethers-lib";
-import { ethers } from "ethers";
-import SafeServiceClient from "@safe-global/safe-service-client";
 import { useQuery } from "@tanstack/react-query";
 import { Datatable } from "components/Datatable";
 import {
   activityColumn,
-  ownerColumn,
-  dateColumn,
   approveColumn,
-  statusColumn,
   buttonColumn,
+  dateColumn,
+  ownerColumn,
+  statusColumn,
 } from "components/Datatable/tableColumns";
 import { SafeMultisigTransactionResponse } from "types";
 import { Content, Text } from "components/general";
+import { useSafeClient } from "pages/providers/SafeProvider/context";
 
 export default function History() {
-  const blockNumber = useBlockNumber();
-  const { library } = useEthers();
+  const { client } = useSafeClient();
 
-  const serviceClient = useMemo(() => {
-    if (library === undefined) {
-      return undefined;
-    }
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: library,
-    });
-
-    return new SafeServiceClient({
-      txServiceUrl: "https://safe-transaction-goerli.safe.global",
-      ethAdapter,
-    });
-  }, [library]);
-
-  const { data: safes } = useQuery({
-    queryKey: ["safes", blockNumber],
-    queryFn: async () => {
-      return serviceClient?.getSafesByOwner(
-        "0xe13610d0a3e4303c70791773C5DF8Bb16de185d1"
-      );
-    },
-  });
-
-  const { data: multisigTxs } = useQuery({
+  const { data: multisigTxs, isLoading } = useQuery({
     queryKey: ["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"],
     queryFn: async () => {
-      return serviceClient?.getMultisigTransactions(
+      return client?.getMultisigTransactions(
         "0x10443C6e07D43ad15D749931379feC963fCb6baD"
       );
     },
   });
-  console.log("multisigTxs: ", multisigTxs);
+  if (isLoading || !multisigTxs) {
+    return <div>loading...</div>;
+  }
   const results = multisigTxs?.results as
     | SafeMultisigTransactionResponse[]
     | undefined;
+
+  const filteredResults = results?.filter(
+    (result) => result.dataDecoded?.method
+  );
 
   return (
     <Content>
@@ -64,7 +41,7 @@ export default function History() {
       </Text>
       <Datatable
         initSortKey="Status"
-        data={results ?? []}
+        data={filteredResults ?? []}
         columns={[
           activityColumn,
           ownerColumn,

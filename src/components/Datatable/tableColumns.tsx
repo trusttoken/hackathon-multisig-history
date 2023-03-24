@@ -6,10 +6,10 @@ import { TableCellColumn, TableCellRow } from "./TableCell";
 import { Badge, StatusBadge } from "../Badge";
 import { Icon } from "components/Icon";
 import { Row, TextInline } from "components/general";
-import { Img, defaultImage } from "components/Image";
-import { Button } from "components/Button";
+import { defaultImage, Img } from "components/Image";
 import { SafeMultisigTransactionResponse } from "types";
 import { theme } from "styles";
+import { ActionButton } from "../Action/ActionButton";
 
 type TransactionColumn = TableColumn<SafeMultisigTransactionResponse>;
 
@@ -87,9 +87,7 @@ export const statusColumn: TransactionColumn = {
 export const buttonColumn: TransactionColumn = {
   name: "Action",
   selector: ({ confirmationsRequired }) => confirmationsRequired,
-  cell: (transaction) => (
-    <Button view="primary">{transaction.confirmationsRequired} Execute</Button>
-  ),
+  cell: (transaction) => <ActionButton tx={transaction}></ActionButton>,
   side: "center",
 };
 
