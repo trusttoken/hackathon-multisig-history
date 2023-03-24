@@ -3,7 +3,7 @@ import { shortAddress, formatDate, formatTime } from "utils";
 import { Text } from "../general/Text";
 import styled from "styled-components";
 import { TableCellColumn, TableCellRow } from "./TableCell";
-import { Badge } from "../Badge";
+import { Badge, StatusBadge } from "../Badge";
 import { Icon } from "components/Icon";
 import { Row, TextInline } from "components/general";
 import { Img, defaultImage } from "components/Image";
@@ -75,7 +75,12 @@ export const approveColumn: TransactionColumn = {
 export const statusColumn: TransactionColumn = {
   name: "Status",
   selector: ({ confirmationsRequired }) => confirmationsRequired,
-  cell: (transaction) => <Badge>{transaction.confirmationsRequired}</Badge>,
+  cell: (transaction) => (
+    <StatusBadge
+      confirmationsGets={transaction.confirmations?.length ?? 0}
+      confirmationsRequired={transaction.confirmationsRequired}
+    />
+  ),
   side: "center",
 };
 
