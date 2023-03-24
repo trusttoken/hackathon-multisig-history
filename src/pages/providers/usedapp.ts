@@ -2,7 +2,7 @@ import { ChainId, Config, Goerli, MetamaskConnector } from "@usedapp/core";
 import { providers } from "ethers";
 import { WalletConnectConnector } from "@usedapp/wallet-connect-connector";
 
-const INFURA_API_KEY = process.env.NEXT_PUBLIC_INFURA_API_KEY;
+export const INFURA_API_KEY = process.env.NEXT_PUBLIC_INFURA_API_KEY;
 
 export const getDAppConfig = (): Config => ({
   readOnlyChainId: Goerli.chainId,
