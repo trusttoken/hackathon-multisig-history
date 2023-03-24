@@ -3,6 +3,9 @@ import { generateTypedData } from "@safe-global/safe-core-sdk-utils";
 import { Goerli, useEthers, useSigner } from "@usedapp/core";
 import { useSafeClient } from "../pages/providers/SafeProvider/context";
 import { SafeMultisigTransactionResponse } from "types";
+import EthersAdapter from "@safe-global/safe-ethers-lib";
+import { ethers } from "ethers";
+import Safe from "@safe-global/safe-core-sdk";
 
 export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
   const { chainId = Goerli.chainId } = useEthers();
@@ -42,6 +45,9 @@ export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
         typedData.message
       );
 
+      if (!signer || !tx.data) {
+        return undefined;
+      }
       return client?.confirmTransaction(tx.safeTxHash, signature);
     },
     onSuccess: () =>
