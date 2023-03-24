@@ -8,7 +8,7 @@ export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
   const { chainId = Goerli.chainId } = useEthers();
   const { client } = useSafeClient();
   const signer = useSigner();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
@@ -44,6 +44,10 @@ export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
 
       return client?.confirmTransaction(tx.safeTxHash, signature);
     },
-    onSuccess: () => queryClient.invalidateQueries(["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"])
+    onSuccess: () =>
+      queryClient.invalidateQueries([
+        "txs",
+        "0x10443C6e07D43ad15D749931379feC963fCb6baD",
+      ]),
   });
 };

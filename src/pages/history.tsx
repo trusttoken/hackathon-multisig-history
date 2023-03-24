@@ -20,7 +20,7 @@ export default function History() {
     queryKey: ["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"],
     queryFn: async () => {
       if (!client) {
-        throw new Error('Undefined client')
+        throw new Error("Undefined client");
       }
       return client.getMultisigTransactions(
         "0x10443C6e07D43ad15D749931379feC963fCb6baD"
