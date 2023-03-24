@@ -17,37 +17,12 @@ import { SafeMultisigTransactionResponse } from "types";
 import { Content, Text } from "components/general";
 
 export default function History() {
-  const blockNumber = useBlockNumber();
-  const { library } = useEthers();
-
-  const serviceClient = useMemo(() => {
-    if (library === undefined) {
-      return undefined;
-    }
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: library,
-    });
-
-    return new SafeServiceClient({
-      txServiceUrl: "https://safe-transaction-goerli.safe.global",
-      ethAdapter,
-    });
-  }, [library]);
-
-  const { data: safes } = useQuery({
-    queryKey: ["safes", blockNumber],
-    queryFn: async () => {
-      return serviceClient?.getSafesByOwner(
-        "0xe13610d0a3e4303c70791773C5DF8Bb16de185d1"
-      );
-    },
-  });
+  const {client} = useSafeClient()
 
   const { data: multisigTxs } = useQuery({
     queryKey: ["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"],
     queryFn: async () => {
-      return serviceClient?.getMultisigTransactions(
+      return client?.getMultisigTransactions(
         "0x10443C6e07D43ad15D749931379feC963fCb6baD"
       );
     },
@@ -77,3 +52,78 @@ export default function History() {
     </Content>
   );
 }
+
+interface TransactionProps {
+  tx: SafeMultisigTransactionResponse;
+}
+const TransactionRow = ({ tx }: TransactionProps) => {
+  const { account, chainId } = useEthers();
+  const signer = useSigner()
+
+  const {client} = useSafeClient()
+
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      const safeInfo = await client?.getSafeInfo(tx.safe)
+      if (!safeInfo || !signer || !tx.data || !tx.refundReceiver) {
+        return undefined
+      }
+
+      const typedData = generateTypedData({
+        safeAddress:tx.safe,
+        safeVersion: safeInfo.version,
+        chainId: chainId ?? Goerli.chainId,
+        safeTransactionData: {
+          to: tx.to,
+          data: tx.data,
+          baseGas: tx.baseGas,
+          gasPrice: Number(tx.gasPrice),
+          nonce: tx.nonce,
+          gasToken: tx.gasToken,
+          safeTxGas: tx.safeTxGas,
+          value: tx.value,
+          operation: tx.operation,
+          refundReceiver: tx.refundReceiver
+        }})
+
+      const types = {SafeTx: typedData.types.SafeTx}
+      const signature = await signer._signTypedData(
+        typedData.domain,
+        types,
+        typedData.message,
+      )
+
+      return client?.confirmTransaction(tx.safeTxHash, signature)
+    },
+  });
+
+  return (
+    <div>
+      {requiresConfirmation(tx, account) && <button onClick={() => mutate()}>confirm</button>}
+      {requiresExecution(tx) && <button>execute</button>}
+      <pre key={tx.safeTxHash}>{JSON.stringify(tx)}</pre>
+    </div>
+  );
+};
+
+const requiresConfirmation = (
+  tx: SafeMultisigTransactionResponse,
+  account: string | undefined
+) => {
+  const confirmations = tx.confirmations ?? [];
+
+  return (
+    account &&
+    !tx.isExecuted &&
+    confirmations.length < tx.confirmationsRequired &&
+    !confirmations.some((confirmation) =>
+      addressEqual(account, confirmation.owner)
+    )
+  );
+};
+
+const requiresExecution = (tx: SafeMultisigTransactionResponse) => {
+  const confirmations = tx.confirmations ?? [];
+
+  return !tx.isExecuted && confirmations.length >= tx.confirmationsRequired;
+};
