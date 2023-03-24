@@ -15,6 +15,10 @@ export const ActionButton = ({ tx }: ActionButtonProps) => {
   const { mutate: confirmTx } = useConfirmTx(tx);
   const {mutate: executeTx} = useExecuteTx(tx)
 
+  if (requiresExecution(tx)) {
+    return <Button view="primary" onClick={executeTx}>Execute</Button>;
+  }
+
   const hasUserConfirmed =
     account &&
     confirmations.some((confirmation) =>
@@ -33,10 +37,6 @@ export const ActionButton = ({ tx }: ActionButtonProps) => {
     );
   }
 
-  if (requiresExecution(tx)) {
-    return <Button view="primary" onClick={executeTx}>Execute</Button>;
-  }
-
   return null;
 };
 
@@ -44,6 +44,7 @@ const requiresConfirmation = (
   tx: SafeMultisigTransactionResponse,
   account: string | undefined
 ) => {
+  // return true
   const confirmations = tx.confirmations ?? [];
 
   return (
@@ -58,6 +59,9 @@ const requiresConfirmation = (
 
 const requiresExecution = (tx: SafeMultisigTransactionResponse) => {
   const confirmations = tx.confirmations ?? [];
+  if (tx.isExecuted || tx.isSuccessful) {
+    return false
+  }
 
-  return !tx.isExecuted && confirmations.length >= tx.confirmationsRequired;
+  return confirmations.length >= tx.confirmationsRequired;
 };

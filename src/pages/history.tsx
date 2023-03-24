@@ -6,7 +6,7 @@ import {
   buttonColumn,
   dateColumn,
   ownerColumn,
-  statusColumn,
+  statusColumn
 } from "components/Datatable/tableColumns";
 import { SafeMultisigTransactionResponse } from "types";
 import { Content, Text } from "components/general";
@@ -26,7 +26,9 @@ export default function History() {
         "0x10443C6e07D43ad15D749931379feC963fCb6baD"
       );
     },
+    enabled: client !== undefined,
   });
+
   if (isLoading || !multisigTxs) {
     return <Loading />;
   }
