@@ -3,6 +3,7 @@ import { SafeMultisigTransactionResponse } from "../../types";
 import { addressEqual, useEthers } from "@usedapp/core";
 import { useConfirmTx } from "hooks/useConfirmTx";
 import { Text } from "../general";
+import { useExecuteTx } from "../../hooks/useExecuteTx";
 
 interface ActionButtonProps {
   tx: SafeMultisigTransactionResponse;
@@ -11,7 +12,8 @@ interface ActionButtonProps {
 export const ActionButton = ({ tx }: ActionButtonProps) => {
   const { account } = useEthers();
   const confirmations = tx.confirmations ?? [];
-  const { mutate } = useConfirmTx(tx);
+  const { mutate: confirmTx } = useConfirmTx(tx);
+  const {mutate: executeTx} = useExecuteTx(tx)
 
   const hasUserConfirmed =
     account &&
@@ -25,14 +27,14 @@ export const ActionButton = ({ tx }: ActionButtonProps) => {
 
   if (requiresConfirmation(tx, account)) {
     return (
-      <Button view="secondary" onClick={mutate}>
+      <Button view="secondary" onClick={confirmTx}>
         Approve
       </Button>
     );
   }
 
   if (requiresExecution(tx)) {
-    return <Button view="primary">Execute</Button>;
+    return <Button view="primary" onClick={executeTx}>Execute</Button>;
   }
 
   return null;

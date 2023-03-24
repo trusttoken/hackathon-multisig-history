@@ -12,6 +12,7 @@
     "lint:eslint": "eslint './src/**/*.{ts,tsx}' --cache"
   },
   "dependencies": {
+    "@safe-global/safe-core-sdk": "^3.3.2",
     "@safe-global/safe-core-sdk-types": "^1.9.0",
     "@safe-global/safe-core-sdk-utils": "^1.7.2",
     "@safe-global/safe-ethers-lib": "^1.9.2",
