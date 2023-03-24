@@ -11,6 +11,7 @@ import {
 import { SafeMultisigTransactionResponse } from "types";
 import { Content, Text } from "components/general";
 import { useSafeClient } from "pages/providers/SafeProvider/context";
+import { Loading } from "components/Loading";
 
 export default function History() {
   const { client } = useSafeClient();
@@ -24,7 +25,7 @@ export default function History() {
     },
   });
   if (isLoading || !multisigTxs) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
   const results = multisigTxs?.results as
     | SafeMultisigTransactionResponse[]
