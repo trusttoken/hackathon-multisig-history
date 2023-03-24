@@ -61,10 +61,10 @@ export const approveColumn: TransactionColumn = {
       <Icon>group</Icon>
       <Row>
         <TextInline color="light" variant="body2">
-          {transaction.confirmationsRequired}/
+          {transaction.confirmations?.length}
         </TextInline>
         <TextInline variant="body2">
-          {transaction.confirmations?.length}
+          /{transaction.confirmationsRequired}
         </TextInline>
       </Row>
     </TableCellRow>
