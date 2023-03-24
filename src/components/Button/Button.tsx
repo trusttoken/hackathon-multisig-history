@@ -2,7 +2,7 @@ import React, { CSSProperties, forwardRef, ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { BorderRadiuses, Transitions } from "styles";
 import { UseTransientProps } from "types";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icons";
 
 export interface ButtonSafeStylePropsBase {
   wide?: boolean;

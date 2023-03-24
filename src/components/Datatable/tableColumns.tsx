@@ -4,7 +4,7 @@ import { Text } from "../general/Text";
 import styled from "styled-components";
 import { TableCellColumn, TableCellRow } from "./TableCell";
 import { Badge, StatusBadge } from "../Badge";
-import { Icon } from "components/Icon";
+import { Icon } from "components/Icons";
 import { Row, TextInline } from "components/general";
 import { defaultImage, Img } from "components/Image";
 import { SafeMultisigTransactionResponse } from "types";
