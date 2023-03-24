@@ -18,7 +18,10 @@ export default function History() {
   const { data: multisigTxs, isLoading } = useQuery({
     queryKey: ["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"],
     queryFn: async () => {
-      return client?.getMultisigTransactions(
+      if (!client) {
+        throw new Error('Undefined client')
+      }
+      return client.getMultisigTransactions(
         "0x10443C6e07D43ad15D749931379feC963fCb6baD"
       );
     },
