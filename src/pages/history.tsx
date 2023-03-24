@@ -15,7 +15,7 @@ import { useSafeClient } from "pages/providers/SafeProvider/context";
 export default function History() {
   const { client } = useSafeClient();
 
-  const { data: multisigTxs } = useQuery({
+  const { data: multisigTxs, isLoading } = useQuery({
     queryKey: ["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"],
     queryFn: async () => {
       return client?.getMultisigTransactions(
@@ -23,10 +23,16 @@ export default function History() {
       );
     },
   });
-  console.log("multisigTxs: ", multisigTxs);
+  if (isLoading || !multisigTxs) {
+    return <div>loading...</div>;
+  }
   const results = multisigTxs?.results as
     | SafeMultisigTransactionResponse[]
     | undefined;
+
+  const filteredResults = results?.filter(
+    (result) => result.dataDecoded?.method
+  );
 
   return (
     <Content>
@@ -35,7 +41,7 @@ export default function History() {
       </Text>
       <Datatable
         initSortKey="Status"
-        data={results ?? []}
+        data={filteredResults ?? []}
         columns={[
           activityColumn,
           ownerColumn,
