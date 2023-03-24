@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateTypedData } from "@safe-global/safe-core-sdk-utils";
 import { Goerli, useEthers, useSigner } from "@usedapp/core";
 import { useSafeClient } from "../pages/providers/SafeProvider/context";
@@ -8,6 +8,7 @@ export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
   const { chainId = Goerli.chainId } = useEthers();
   const { client } = useSafeClient();
   const signer = useSigner();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async () => {
@@ -43,5 +44,6 @@ export const useConfirmTx = (tx: SafeMultisigTransactionResponse) => {
 
       return client?.confirmTransaction(tx.safeTxHash, signature);
     },
+    onSuccess: () => queryClient.invalidateQueries(["txs", "0x10443C6e07D43ad15D749931379feC963fCb6baD"])
   });
 };
