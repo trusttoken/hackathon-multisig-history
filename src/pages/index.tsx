@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import { useEthers } from "@usedapp/core";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +15,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <ConnectButton />
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
@@ -121,3 +123,48 @@ export default function Home() {
     </>
   );
 }
+
+const ConnectButton = () => {
+  const { account, deactivate, activateBrowserWallet } = useEthers();
+
+  const metamaskActivate = () => activateBrowserWallet({ type: "Metamask" });
+  const walletConnectActivate = () =>
+    activateBrowserWallet({ type: "WalletConnect" });
+
+  const ConnectButtons = () => (
+    <div>
+      <div>
+        <button
+          onClick={metamaskActivate}
+        >{`Connect with \"Metamask\"`}</button>
+      </div>
+      <div>
+        <button
+          onClick={walletConnectActivate}
+        >{`Connect with \"Wallet Connect\"`}</button>
+      </div>
+    </div>
+  );
+
+  const WalletConnectConnect = () => (
+    <div>
+      {account && (
+        <div>
+          <div className="inline">
+            <div className="account">{account}</div>
+          </div>
+          <br />
+        </div>
+      )}
+      {!account && <ConnectButtons />}
+      {account && <button onClick={deactivate}>Disconnect</button>}
+      <br />
+    </div>
+  );
+
+  return (
+    <div>
+      <WalletConnectConnect />
+    </div>
+  );
+};
