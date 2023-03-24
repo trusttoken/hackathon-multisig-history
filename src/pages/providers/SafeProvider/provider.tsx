@@ -6,7 +6,7 @@ import SafeServiceClient from "@safe-global/safe-service-client";
 import {
   SafeContext,
   SafeContextProviderProps,
-} from "@/pages/providers/SafeProvider/context";
+} from "pages/providers/SafeProvider/context";
 
 export const SafeProvider = ({ children }: { children: ReactNode }) => {
   const { library, account } = useEthers();
@@ -15,7 +15,7 @@ export const SafeProvider = ({ children }: { children: ReactNode }) => {
     if (library === undefined) {
       return {
         client: null,
-      }
+      };
     }
     const ethAdapter = new EthersAdapter({
       ethers,

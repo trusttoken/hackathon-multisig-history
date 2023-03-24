@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@safe-global/safe-core-sdk-types': ^1.9.0
+  '@safe-global/safe-core-sdk-utils': ^1.7.2
   '@safe-global/safe-ethers-lib': ^1.9.2
   '@safe-global/safe-service-client': ^2.0.0
   '@tanstack/react-query': ^4.28.0
@@ -25,6 +26,7 @@ specifiers:
 
 dependencies:
   '@safe-global/safe-core-sdk-types': 1.9.0
+  '@safe-global/safe-core-sdk-utils': 1.7.2
   '@safe-global/safe-ethers-lib': 1.9.2
   '@safe-global/safe-service-client': 2.0.0
   '@tanstack/react-query': 4.28.0_biqbaboplfbrettd7655fr4n2y
