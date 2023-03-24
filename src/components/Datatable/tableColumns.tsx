@@ -1,5 +1,5 @@
 import { TableColumn } from "./types";
-import { shortAddress, formatDate } from "utils";
+import { shortAddress, formatDate, formatTime } from "utils";
 import { Text } from "../general/Text";
 import styled from "styled-components";
 import { TableCellColumn, TableCellRow } from "./TableCell";
@@ -9,6 +9,7 @@ import { Row, TextInline } from "components/general";
 import { Img, defaultImage } from "components/Image";
 import { Button } from "components/Button";
 import { SafeMultisigTransactionResponse } from "types";
+import { theme } from "styles";
 
 type TransactionColumn = TableColumn<SafeMultisigTransactionResponse>;
 
@@ -17,7 +18,7 @@ export const activityColumn: TransactionColumn = {
   selector: ({ dataDecoded }) => dataDecoded?.method ?? "",
   cell: ({ dataDecoded }) => (
     <TableCellRow>
-      <Icon>download</Icon>
+      <Icon color={theme.colors.CopperOrange}>download</Icon>
       <Text variant="body2" bold color="dark">
         {dataDecoded?.method}
       </Text>
@@ -44,6 +45,9 @@ export const dateColumn: TransactionColumn = {
       <Text color="dark" variant="body2">
         {formatDate(submissionDate)}
       </Text>
+      <Text color="light" variant="body2">
+        {formatTime(submissionDate)}
+      </Text>
     </StatusCellColumn>
   ),
   side: "right",
@@ -56,8 +60,12 @@ export const approveColumn: TransactionColumn = {
     <TableCellRow>
       <Icon>group</Icon>
       <Row>
-        <TextInline>{transaction.confirmationsRequired}/</TextInline>
-        <TextInline>{transaction.confirmations?.length}</TextInline>
+        <TextInline color="light" variant="body2">
+          {transaction.confirmationsRequired}/
+        </TextInline>
+        <TextInline variant="body2">
+          {transaction.confirmations?.length}
+        </TextInline>
       </Row>
     </TableCellRow>
   ),
@@ -68,7 +76,7 @@ export const statusColumn: TransactionColumn = {
   name: "Status",
   selector: ({ confirmationsRequired }) => confirmationsRequired,
   cell: (transaction) => <Badge>{transaction.confirmationsRequired}</Badge>,
-  side: "right",
+  side: "center",
 };
 
 export const buttonColumn: TransactionColumn = {
@@ -77,6 +85,7 @@ export const buttonColumn: TransactionColumn = {
   cell: (transaction) => (
     <Button view="primary">{transaction.confirmationsRequired} Execute</Button>
   ),
+  side: "center",
 };
 
 const StatusCellColumn = styled(TableCellColumn)`

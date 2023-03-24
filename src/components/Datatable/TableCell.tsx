@@ -85,10 +85,6 @@ export const CellRow = styled(Row)<Pick<TableCellProps, "side">>`
         return "center";
     }
   }};
-
-  &:hover {
-    box-shadow: ${shadows.s};
-  }
 `;
 const CellLink = styled(Link)`
   text-decoration: none;
